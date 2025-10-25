@@ -266,7 +266,7 @@ export default function FlashcardsPage() {
           }}
         >
           <div
-            className={`relative w-full h-64 transition-transform duration-500 ${deck.isFlipped ? "scale-x-[-1]" : ""}`}
+            className={`relative w-full h-64 transition-transform duration-500`}
             style={{
               transformStyle: "preserve-3d",
               transform: deck.isFlipped ? "rotateY(180deg)" : "rotateY(0deg)",

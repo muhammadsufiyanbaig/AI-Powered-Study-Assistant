@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Loader2, Send, Lightbulb, BookOpen, HelpCircle } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { chatWithStudyBuddy } from "@/lib/api"
+import ReactMarkdown from "react-markdown"
 
 interface Message {
   id: string
@@ -43,21 +44,25 @@ export default function StudyBuddyPage() {
   const handleSendMessage = async () => {
     if (!input.trim()) return
 
+    // Store the user's input before clearing
+    const userInput = input.trim()
+
     // Add user message
     const userMessage: Message = {
       id: Date.now().toString(),
       role: "user",
-      content: input,
+      content: userInput,
       timestamp: new Date(),
     }
 
-    setMessages((prev) => [...prev, userMessage])
+    const updatedMessages = [...messages, userMessage]
+    setMessages(updatedMessages)
     setInput("")
     setLoading(true)
 
     try {
-      // Get conversation history for context
-      const conversationHistory = messages.map(msg => ({
+      // Build conversation history INCLUDING the new user message
+      const conversationHistory = updatedMessages.map(msg => ({
         role: msg.role,
         content: msg.content
       }))
@@ -135,7 +140,13 @@ export default function StudyBuddyPage() {
                       : "bg-secondary text-foreground rounded-bl-none"
                   }`}
                 >
-                  <p className="text-sm leading-relaxed">{message.content}</p>
+                  {message.role === "assistant" ? (
+                    <div className="text-sm leading-relaxed prose prose-sm dark:prose-invert max-w-none prose-p:my-2 prose-headings:my-2 prose-ul:my-2 prose-ol:my-2 prose-li:my-1 prose-code:bg-muted prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-pre:bg-muted prose-pre:p-2 prose-pre:rounded">
+                      <ReactMarkdown>{message.content}</ReactMarkdown>
+                    </div>
+                  ) : (
+                    <p className="text-sm leading-relaxed">{message.content}</p>
+                  )}
                   <p
                     className={`text-xs mt-2 ${message.role === "user" ? "text-primary-foreground/70" : "text-muted-foreground"}`}
                   >
