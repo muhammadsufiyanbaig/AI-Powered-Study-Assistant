@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Input } from "@/components/ui/input"
 import { Loader2, Shuffle, ChevronLeft, ChevronRight, Check, X } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
+import { generateFlashcards } from "@/lib/api"
 
 interface Flashcard {
   id: string
@@ -47,81 +48,33 @@ export default function FlashcardsPage() {
 
     setLoading(true)
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 2000))
-
-      // Mock flashcards
-      const mockCards: Flashcard[] = [
-        {
-          id: "fc1",
-          front: "What is a transformer?",
-          back: "A transformer is a deep learning architecture based on self-attention mechanisms that processes sequences in parallel, enabling efficient training on large datasets.",
-          status: "new",
-        },
-        {
-          id: "fc2",
-          front: "What is self-attention?",
-          back: "Self-attention is a mechanism that allows each token in a sequence to attend to all other tokens, computing weighted sums based on query-key-value interactions.",
-          status: "new",
-        },
-        {
-          id: "fc3",
-          front: "What are attention heads?",
-          back: "Attention heads are parallel attention mechanisms that allow the model to attend to different representation subspaces simultaneously, improving model expressiveness.",
-          status: "new",
-        },
-        {
-          id: "fc4",
-          front: "What is positional encoding?",
-          back: "Positional encoding adds information about token positions to embeddings, allowing transformers to understand sequence order despite processing all tokens in parallel.",
-          status: "new",
-        },
-        {
-          id: "fc5",
-          front: "What is the feed-forward network in transformers?",
-          back: "The feed-forward network is a two-layer fully connected network applied to each token independently, consisting of a hidden layer with ReLU activation.",
-          status: "new",
-        },
-        {
-          id: "fc6",
-          front: "What is layer normalization?",
-          back: "Layer normalization normalizes activations across features for each sample independently, helping stabilize training and improve model performance.",
-          status: "new",
-        },
-        {
-          id: "fc7",
-          front: "What is the difference between encoder and decoder?",
-          back: "Encoders process the full input sequence with bidirectional attention, while decoders process sequences autoregressively with causal masking to prevent attending to future tokens.",
-          status: "new",
-        },
-        {
-          id: "fc8",
-          front: "What is causal masking?",
-          back: "Causal masking prevents tokens from attending to future tokens during generation, ensuring the model generates sequences one token at a time.",
-          status: "new",
-        },
-      ]
+      const flashcards = await generateFlashcards(topic, input)
 
       setDeck({
-        cards: mockCards,
+        cards: flashcards.map((card: any, index: number) => ({
+          id: `fc${index + 1}`,
+          front: card.front,
+          back: card.back,
+          status: "new" as const,
+        })),
         currentIndex: 0,
         isFlipped: false,
         shuffled: false,
         stats: {
           learned: 0,
           learning: 0,
-          new: mockCards.length,
+          new: flashcards.length,
         },
       })
 
       toast({
         title: "Success",
-        description: `Created ${mockCards.length} flashcards`,
+        description: `Created ${flashcards.length} flashcards`,
       })
     } catch (error) {
       toast({
         title: "Error",
-        description: "Failed to generate flashcards",
+        description: "Failed to generate flashcards. Please try again.",
         variant: "destructive",
       })
     } finally {

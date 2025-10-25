@@ -9,6 +9,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
 import { Loader2, CheckCircle2, XCircle, RotateCcw } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
+import { generateQuiz } from "@/lib/api"
 
 interface QuizQuestion {
   id: string
@@ -44,65 +45,25 @@ export default function QuizPage() {
 
     setLoading(true)
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 2000))
+      const questions = await generateQuiz(input)
 
-      // Mock quiz questions
-      const mockQuestions: QuizQuestion[] = [
-        {
-          id: "q1",
-          question: "What is the primary advantage of transformer architectures in NLP?",
-          type: "multiple-choice",
-          options: [
-            "They process sequences sequentially",
-            "They use parallel processing with attention mechanisms",
-            "They require less memory than RNNs",
-            "They are easier to implement",
-          ],
-          correctAnswer: "They use parallel processing with attention mechanisms",
-          explanation:
-            "Transformers use self-attention mechanisms that allow parallel processing of sequences, making them much faster than sequential models like RNNs.",
-        },
-        {
-          id: "q2",
-          question: "Explain how the attention mechanism works in transformers.",
-          type: "short-answer",
-          correctAnswer:
-            "The attention mechanism computes weighted sums of values based on query-key similarities, allowing the model to focus on relevant parts of the input.",
-          explanation:
-            "The attention mechanism calculates attention weights by comparing queries with keys, then uses these weights to create a weighted sum of values. This allows the model to dynamically focus on different parts of the input.",
-        },
-        {
-          id: "q3",
-          question: "Which of the following is NOT a component of the transformer architecture?",
-          type: "multiple-choice",
-          options: ["Multi-head attention", "Feed-forward networks", "Recurrent connections", "Positional encoding"],
-          correctAnswer: "Recurrent connections",
-          explanation:
-            "Transformers do not use recurrent connections. They rely entirely on attention mechanisms and feed-forward networks, which is why they can process sequences in parallel.",
-        },
-        {
-          id: "q4",
-          question: "What is the purpose of positional encoding in transformers?",
-          type: "short-answer",
-          correctAnswer:
-            "Positional encoding provides information about the position of tokens in the sequence, since transformers process all tokens in parallel.",
-          explanation:
-            "Since transformers process all tokens simultaneously (unlike RNNs), they need positional encoding to understand the order of tokens in the sequence.",
-        },
-        {
-          id: "q5",
-          question: "How many attention heads are typically used in modern transformer models?",
-          type: "multiple-choice",
-          options: ["2-4 heads", "8-16 heads", "32-64 heads", "128+ heads"],
-          correctAnswer: "8-16 heads",
-          explanation:
-            "Most modern transformers like BERT and GPT use 8-16 attention heads. This allows the model to attend to different representation subspaces simultaneously.",
-        },
-      ]
+
+
+
+
+
+
+
 
       setQuiz({
-        questions: mockQuestions,
+        questions: questions.map((q: any, index: number) => ({
+          id: q.id || `q${index + 1}`,
+          question: q.question,
+          type: q.type,
+          options: q.options,
+          correctAnswer: q.correctAnswer,
+          explanation: q.explanation,
+        })),
         currentIndex: 0,
         answers: {},
         submitted: false,
@@ -280,9 +241,9 @@ export default function QuizPage() {
               >
                 <div className="flex gap-3 mb-3">
                   {isCorrect ? (
-                    <CheckCircle2 className="w-5 h-5 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" />
+                    <CheckCircle2 className="w-5 h-5 text-green-600 dark:text-green-400 shrink-0 mt-0.5" />
                   ) : (
-                    <XCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
+                    <XCircle className="w-5 h-5 text-red-600 dark:text-red-400 shrink-0 mt-0.5" />
                   )}
                   <div>
                     <p

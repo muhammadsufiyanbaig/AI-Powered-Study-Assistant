@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { BookOpen, Brain, Lightbulb, MessageSquare, Zap, BarChart3 } from "lucide-react"
+import { BookOpen, Brain, Lightbulb, MessageSquare, Zap } from "lucide-react"
 import Link from "next/link"
 
 export default function Home() {
@@ -33,14 +33,6 @@ export default function Home() {
       icon: Lightbulb,
       color: "from-amber-500 to-orange-500",
       href: "/flashcards",
-    },
-    {
-      id: "dashboard",
-      title: "Learning Dashboard",
-      description: "Track your progress, identify weak areas, and get personalized study recommendations",
-      icon: BarChart3,
-      color: "from-green-500 to-emerald-500",
-      href: "/dashboard",
     },
     {
       id: "buddy",
@@ -103,7 +95,7 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-6 max-w-4xl mx-auto">
           {features.map((feature) => {
             const Icon = feature.icon
             return (

@@ -7,6 +7,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Loader2, Send, Lightbulb, BookOpen, HelpCircle } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
+import { chatWithStudyBuddy } from "@/lib/api"
 
 interface Message {
   id: string
@@ -55,29 +56,13 @@ export default function StudyBuddyPage() {
     setLoading(true)
 
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500))
+      // Get conversation history for context
+      const conversationHistory = messages.map(msg => ({
+        role: msg.role,
+        content: msg.content
+      }))
 
-      // Mock responses based on keywords
-      let response = ""
-      const lowerInput = input.toLowerCase()
-
-      if (lowerInput.includes("transformer")) {
-        response =
-          "A transformer is a deep learning architecture introduced in the paper 'Attention is All You Need'. It uses self-attention mechanisms to process sequences in parallel, making it much faster than RNNs. The key innovation is the attention mechanism, which allows each token to attend to all other tokens in the sequence. This enables the model to capture long-range dependencies effectively. Transformers have become the foundation for modern NLP models like BERT, GPT, and T5."
-      } else if (lowerInput.includes("attention")) {
-        response =
-          "Attention is a mechanism that allows the model to focus on different parts of the input when processing each token. It works by computing attention weights based on the similarity between queries and keys, then using these weights to create a weighted sum of values. This allows the model to dynamically focus on relevant information. Multi-head attention extends this by running multiple attention operations in parallel, allowing the model to attend to different representation subspaces."
-      } else if (lowerInput.includes("how")) {
-        response =
-          "Great question! To help you better, could you be more specific? For example, you could ask 'How does backpropagation work?' or 'How do I implement a neural network?' I'm here to explain any concept in simple terms."
-      } else if (lowerInput.includes("explain")) {
-        response =
-          "I'd be happy to explain! Could you tell me which concept you'd like me to explain? For example, you could ask about neural networks, machine learning algorithms, data structures, or any other topic you're studying."
-      } else {
-        response =
-          "That's an interesting question! Let me break it down for you: The key to understanding this concept is to think about it in terms of its core components. First, consider the fundamental principles. Second, look at how these principles interact. Finally, practice applying these concepts to real-world examples. Would you like me to dive deeper into any specific aspect?"
-      }
+      const response = await chatWithStudyBuddy(conversationHistory)
 
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
@@ -90,7 +75,7 @@ export default function StudyBuddyPage() {
     } catch (error) {
       toast({
         title: "Error",
-        description: "Failed to get response",
+        description: "Failed to get response. Please try again.",
         variant: "destructive",
       })
     } finally {
