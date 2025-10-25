@@ -53,13 +53,12 @@ export default function Home() {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-secondary/10">
-      {/* Navigation */}
-      <nav className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-sm">
+    <div className="min-h-screen bg-background">
+      <nav className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-sm neumorphic-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-              <Zap className="w-5 h-5 text-primary-foreground" />
+            <div className="w-8 h-8 rounded-lg neumorphic-sm flex items-center justify-center">
+              <Zap className="w-5 h-5 text-primary" />
             </div>
             <span className="font-bold text-lg">StudyAI</span>
           </div>
@@ -96,7 +95,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Features Section */}
       <section id="features" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Powerful Learning Tools</h2>
@@ -111,12 +109,12 @@ export default function Home() {
             return (
               <Link key={feature.id} href={feature.href}>
                 <Card
-                  className="h-full cursor-pointer transition-all hover:shadow-lg hover:border-primary/50 group"
+                  className="h-full cursor-pointer transition-all neumorphic hover:shadow-[0_8px_16px_rgba(0,0,0,0.1),0_-8px_16px_rgba(255,255,255,0.95)] dark:hover:shadow-[0_8px_16px_rgba(0,0,0,0.5),0_-8px_16px_rgba(255,255,255,0.2)] group border-0"
                   onMouseEnter={() => setActiveFeature(feature.id)}
                   onMouseLeave={() => setActiveFeature(null)}
                 >
                   <CardHeader>
-                    <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center mb-4 group-hover:from-primary/30 group-hover:to-accent/30 transition">
+                    <div className="w-12 h-12 rounded-xl neumorphic-sm flex items-center justify-center mb-4 group-hover:shadow-[0_4px_8px_rgba(0,0,0,0.08),0_-4px_8px_rgba(255,255,255,0.9)] dark:group-hover:shadow-[0_4px_8px_rgba(0,0,0,0.4),0_-4px_8px_rgba(255,255,255,0.15)] transition">
                       <Icon className="w-6 h-6 text-primary" />
                     </div>
                     <CardTitle className="text-xl">{feature.title}</CardTitle>
@@ -134,8 +132,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* How It Works Section */}
-      <section id="how-it-works" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 bg-card/50 rounded-2xl">
+      <section id="how-it-works" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 neumorphic-lg">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">How It Works</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">Simple steps to transform your learning experience</p>
@@ -153,7 +150,7 @@ export default function Home() {
             },
           ].map((item, idx) => (
             <div key={idx} className="text-center">
-              <div className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-lg mx-auto mb-4">
+              <div className="w-12 h-12 rounded-full neumorphic-sm flex items-center justify-center font-bold text-lg mx-auto mb-4 text-primary">
                 {item.step}
               </div>
               <h3 className="font-semibold mb-2">{item.title}</h3>
@@ -163,9 +160,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="bg-gradient-to-r from-primary/10 to-accent/10 rounded-2xl p-12 text-center border border-primary/20">
+        <div className="neumorphic-lg p-12 text-center border-0">
           <h2 className="text-3xl font-bold mb-4">Ready to Transform Your Learning?</h2>
           <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
             Join thousands of students and researchers who are learning smarter with AI-powered study tools.
@@ -176,14 +172,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-border mt-20 py-12">
+      <footer className="border-t border-border mt-20 py-12 neumorphic-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-4 gap-8 mb-8">
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-                  <Zap className="w-4 h-4 text-primary-foreground" />
+                <div className="w-6 h-6 rounded-lg neumorphic-sm flex items-center justify-center">
+                  <Zap className="w-4 h-4 text-primary" />
                 </div>
                 <span className="font-bold">StudyAI</span>
               </div>
